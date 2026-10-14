@@ -7,8 +7,8 @@ test('desktop reading, search, version filters, summaries, copy and history',asy
  await page.screenshot({path:'qa/static/desktop-1440.png',fullPage:false});
  await page.getByRole('navigation').getByText('OpenCode 첫 사용').click();await expect(page).toHaveURL(/#basics/);
  await page.getByLabel('명령어 검색').fill('  /MODELS  ');await expect(page.locator('.command-tool tbody tr')).toHaveCount(1);
- await page.getByLabel('명령어 버전 필터').selectOption('omo-current-dev');await expect(page.getByText('일치하는 명령어가 없습니다.')).toBeVisible();
- await page.getByRole('button',{name:'필터 초기화'}).click();await expect(page.locator('.command-tool tbody tr')).toHaveCount(18);
+ await page.getByLabel('명령어 버전 필터').selectOption('omo-legacy');await expect(page.getByText('일치하는 명령어가 없습니다.')).toBeVisible();
+ await page.getByRole('button',{name:'필터 초기화'}).click();await expect(page.locator('.command-tool tbody tr')).toHaveCount(15);
  await page.getByLabel('명령어 버전 필터').selectOption('omo-legacy');await expect(page.locator('.command-tool tbody')).toContainText('/start-work');
  await page.getByRole('navigation').getByText('프롬프트 설계').click();await page.locator('#prompts summary').click();
  await context.grantPermissions(['clipboard-read','clipboard-write']);await page.locator('#prompts .code-bar button').first().click();await expect(page.locator('#prompts [role=status]').first()).toHaveText('복사 완료');expect(await page.evaluate(()=>navigator.clipboard.readText())).toContain('목표');

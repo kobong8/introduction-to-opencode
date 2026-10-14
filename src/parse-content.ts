@@ -1,4 +1,4 @@
-export type Scope = 'opencode'|'omo-legacy'|'omo-current-dev';
+export type Scope = 'opencode'|'omo-legacy';
 export type Command = {command:string;description:string;shortcut:string;scope:Scope;sourceIds:string[]};
 
 export const labels = ['사내 OpenCode를 쓰는 이유','OpenCode 첫 사용','스킬·하네스·메모리','Oh My OpenCode','프롬프트 설계','계획·실행·세션 관리','나만의 에이전트 팀','다음 일을 설계하는 법','검증과 증거','보안 엑셀 파일','팀의 다음 행동'];
@@ -20,9 +20,6 @@ const appendix = '## 부록 A' + manuscript.split('## 부록 A')[1];
 const commands:Command[] = [...chapters[1].body.matchAll(/^\| `(.+?)` \| (.+?) \| (.+?) \|$/gm)].map(m=>({command:m[1],description:m[2],shortcut:m[3],scope:'opencode',sourceIds:['S03','S05']}));
 commands.push(
   {command:'/start-work',description:'계획 실행 시작 · 기존 OmO 참고',shortcut:'사내 설치판 확인 필요',scope:'omo-legacy',sourceIds:['S14']},
-  {command:'/ulw-plan',description:'계획 작성 · 원본 dev 문서 기준',shortcut:'사내 설치판 확인 필요',scope:'omo-current-dev',sourceIds:['S13']},
-  {command:'/ulw-execute',description:'계획 실행 · 원본 dev 문서 기준',shortcut:'사내 설치판 확인 필요',scope:'omo-current-dev',sourceIds:['S13']},
-  {command:'ulw / ultrawork',description:'탐색·분해·위임·검증 흐름',shortcut:'사내 설치판 확인 필요',scope:'omo-current-dev',sourceIds:['S13']}
 );
 return {sources,chapters,appendix,commands};
 }
