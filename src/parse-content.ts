@@ -2,7 +2,7 @@ export type Scope = 'opencode'|'omo-legacy';
 export type Command = {command:string;description:string;shortcut:string;scope:Scope;sourceIds:string[]};
 
 export const labels = ['사내 OpenCode를 쓰는 이유','OpenCode 첫 사용','스킬·하네스·메모리','Oh My OpenCode','프롬프트 설계','계획·실행·세션 관리','나만의 에이전트 팀','다음 일을 설계하는 법','검증과 증거','보안 엑셀 파일','팀의 다음 행동'];
-export const evidence = ['사내 경험','공식 기능','교육 예제','버전 확인 필요','교육 예제','버전 확인 필요','교육 예제','교육 예제','교육 예제','사내 확인 필요','교육 예제'];
+export const evidence = ['사내 활용 경험','공식 기능','교육 예제','버전 확인 필요','교육 예제','버전 확인 필요','교육 예제','교육 예제','교육 예제','사내 확인 필요','교육 예제'];
 export function parseGuide(manuscript:string,references:string) {
 const sources = [...references.matchAll(/^\| (S\d+) \| (.+?) \| (https:\/\/\S+) \| (.+?) \|$/gm)].map(m => ({id:m[1],title:m[2],url:m[3],note:m[4],checkedAt:m[4].match(/\d{4}-\d{2}-\d{2}/)?.[0]??'2026-10-01'}));
 const parts = manuscript.split(/^## (?=\d{2}\.)/m).slice(1);
