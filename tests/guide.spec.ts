@@ -59,3 +59,24 @@ test('static Pages subpath loads all assets without an API and preserves present
  expect(api).toEqual([]);
  expect((await request.get('/introduction-to-opencode/api/documents')).status()).toBe(404);
 });
+
+
+test('presentation cards, chapter navigation and return to reading', async ({page}) => {
+ await page.goto('/?mode=present&chapter=why#why');
+ await expect(page.locator('.sidebar')).toBeHidden();
+ for (const width of [1440, 390]) {
+  await page.setViewportSize({width,height:1000});
+  for (let i=0;i<11;i++) {
+   await page.locator('.deck-pages button').nth(i).click();
+   await expect(page.locator('.deck-card')).toHaveCount(3);
+   await expect(page.getByRole('progressbar',{name:'발표 진행'})).toHaveAttribute('aria-valuenow',String(i+1));
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  }
+ }
+ await page.locator('.deck-sources summary').click();
+ await expect(page.locator('.deck-sources .source-links a').first()).toBeVisible();
+ await page.keyboard.press('Escape');
+ await expect(page.locator('#conclusion')).toBeVisible();
+ await expect(page.locator('body')).not.toHaveClass(/is-presenting/);
+ await expect(page).not.toHaveURL(/mode=present/);
+});
