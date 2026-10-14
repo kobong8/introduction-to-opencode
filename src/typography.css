@@ -1,5 +1,8 @@
 /* Screen typography: comfortable reading at normal browser zoom. */
 @media screen {
+  /* Use a text wordmark instead of a font-dependent symbol. */
+  .brand-icon { display: none; }
+  .brand { font-family: inherit; letter-spacing: -0.6px; }
   .sidebar { width: 300px; padding: 28px 20px 20px; }
   .page { margin-left: 300px; }
   .sidebar-caption { font-size: 14px; line-height: 1.6; margin: 22px 0; }
@@ -12,8 +15,8 @@
   .topbar { padding: 0 28px; min-height: 84px; }
   .breadcrumb, .breadcrumb strong { font-size: 13px; }
   .mode-switch button { font-size: 14px; padding: 9px 12px; }
-  .print-button span { font-size: 14px; }
-  .print-button { font-size: 22px; }
+
+
   main { padding: 0 40px; }
   .eyebrow { font-size: 12px; line-height: 1.6; }
   .edition { font-size: 10px; }
@@ -116,8 +119,8 @@
   .top-actions { width: 100%; justify-content: space-between; gap: 8px; }
   .mode-switch { flex: 1; }
   .mode-switch button { flex: 1; font-size: 14px; padding: 8px; }
-  .print-button { padding: 6px 8px; }
-  .print-button span { display: inline; font-size: 13px; }
+
+
   main { padding: 0 20px; }
   .hero { grid-template-columns: 1fr; }
   .hero h1 { font-size: 35px; }
