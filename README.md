@@ -72,7 +72,9 @@ python3 -m venv .venv
 
 ### GitHub Pages와의 차이
 
-**GitHub Pages에서는 FastAPI 서버를 실행할 수 없습니다.** 기존 `.github/workflows/deploy-pages.yml` 대신 `.github/workflows/python-checks.yml`을 추가했습니다. 이 작업은 Python API·브라우저 테스트만 실행하며 npm이나 Pages 배포를 사용하지 않습니다. GitHub 저장소는 소스 관리에 그대로 사용할 수 있습니다.
+**GitHub Pages에서는 FastAPI 서버를 실행할 수 없습니다.** `Deploy from a branch`로 소스를 게시해도 Python 실행과 `/api/documents` 응답은 제공되지 않습니다. 저장소 루트의 `index.html`은 화면 개발용 진입점이며 정적 배포 완성본도 아닙니다. GitHub 저장소는 소스 관리에 그대로 사용할 수 있습니다.
+
+사용자 요청으로 `.github`의 자동 테스트 워크플로도 제거했습니다. 현재 저장소에는 사용자 정의 Actions 워크플로가 없습니다. 다만 Pages의 `Deploy from a branch`를 켜두면 GitHub 자체의 `pages build and deployment` 작업은 별도로 실행될 수 있습니다. 이것까지 중지하려면 저장소 Settings → Pages에서 배포 Branch를 `None`으로 설정하고 저장하세요. 기존 Actions 실행 이력은 파일 삭제 후에도 남을 수 있습니다.
 
 기존 github.io 주소의 정적 사이트는 새 FastAPI 서버로 자동 전환되지 않습니다. 실제 FastAPI 공개 주소는 배포할 서버에 따라 정해야 합니다. 이번 변경으로 GitHub Pages 설정이나 기존 공개 사이트를 삭제하지 않았습니다.
 
@@ -113,7 +115,7 @@ $env:PLAYWRIGHT_CHANNEL = 'msedge'
 .\.venv\Scripts\python.exe -m pytest
 ```
 
-API만 검사할 때는 `.\.venv\Scripts\python.exe -m pytest -m "not browser"`를 실행합니다. 테스트가 임시 포트에 별도의 FastAPI 서버를 자동으로 띄웁니다. 화면 증거는 `qa/fastapi/`에 생성됩니다. GitHub Actions는 Linux Chromium으로 같은 Python 테스트를 실행하도록 구성했습니다.
+API만 검사할 때는 `.\.venv\Scripts\python.exe -m pytest -m "not browser"`를 실행합니다. 테스트가 임시 포트에 별도의 FastAPI 서버를 자동으로 띄웁니다. 화면 증거는 `qa/fastapi/`에 생성됩니다. 자동 Actions 워크플로는 제거했으며 테스트는 필요할 때 직접 실행합니다.
 
 ## 7. 화면 개발 — 필요할 때만 npm 사용
 
@@ -142,7 +144,6 @@ npm.cmd run build
 | `src/content.ts` | 서버 원고 로딩 |
 | `src/parse-content.ts` | 원고 변환·명령어 검색 |
 | `tests/python/` | API와 실제 브라우저 회귀 검증 |
-| `.github/workflows/python-checks.yml` | Python 테스트 CI |
 
 원고의 11개 장과 `### 발표 요약` 형식은 유지하세요. 문서 확인일은 제공 자료 기준이며 설치 버전과 최신 제품 문서를 자동 확인한 날짜가 아닙니다. 사내 모델·버전·할당량·지원 담당자·엑셀 실습 방법은 계속 담당자 입력이 필요합니다.
 
