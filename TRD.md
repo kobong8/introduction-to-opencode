@@ -1,5 +1,5 @@
 # TRD — OpenCode 팀 활용 가이드 웹
-
+> 2026-10-14 갱신: 현재는 React/Vite 정적 사이트이며 GitHub Pages main / (root)로 배포합니다. FastAPI와 사용자 정의 Actions workflow는 사용하지 않습니다. 인쇄 기능은 제외합니다. 현재 실행·배포 절차는 README.md, 교육 내용은 CONTENTS.md를 따릅니다. 아래는 초기 설계 기록입니다.
 > 2026-10-13 변경: 실행은 FastAPI이며 현재 구성은 README.md를 따릅니다. 인쇄 버튼·이벤트·전용 스타일은 사용자 요청으로 제거했습니다. 아래는 초기 정적 웹 설계 기록입니다.
 
 작성일: 2026-10-01 · 대응 문서: PRD.md / CONTENTS.md / SOURCES.md

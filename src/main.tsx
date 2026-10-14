@@ -10,7 +10,7 @@ import('./App').then(({default:App}) => {
 }).catch(() => {
   root.render(<main style={{padding:'48px 24px'}}>
     <h1>가이드를 불러오지 못했습니다.</h1>
-    <p role="alert">서버 연결과 원고 파일을 확인한 뒤 다시 시도하세요.</p>
+    <p role="alert">페이지를 새로고침한 뒤 다시 시도하세요.</p>
     <button className="primary" onClick={()=>location.reload()}>다시 시도</button>
   </main>);
 });

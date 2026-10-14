@@ -1,5 +1,5 @@
 # Codex에게 전달할 구현 지시
-
+> 2026-10-14 갱신: 현재는 React/Vite 정적 사이트이며 GitHub Pages main / (root)로 배포합니다. FastAPI와 사용자 정의 Actions workflow는 사용하지 않습니다. 인쇄 기능은 제외합니다. 현재 실행·배포 절차는 README.md, 교육 내용은 CONTENTS.md를 따릅니다. 아래는 초기 설계 기록입니다.
 > 2026-10-13 갱신: 인쇄 기능은 제외합니다. 기존 지시의 인쇄 구현·검증 항목을 적용하지 마세요. 현재 실행 구조와 교육 원고는 README.md와 CONTENTS.md를 따릅니다.
 
 다음 PRD.md, TRD.md, CONTENTS.md, SOURCES.md를 읽고 한국어 사내 교육 웹사이트를 구현해줘.
