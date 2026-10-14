@@ -11,5 +11,5 @@ describe('provided manuscript',()=>{
 });
 describe('command search',()=>{
  it('finds command, description and shortcut with normalized input',()=>{expect(filterCommands('  /MODELS  ','all')[0].command).toBe('/models');expect(filterCommands('이전 세션','opencode')[0].command).toBe('/sessions');expect(filterCommands('ctrl+x','opencode').length).toBeGreaterThan(3)});
- it('combines scope and text',()=>{expect(filterCommands('','omo-legacy')).toHaveLength(1);expect(commands[0].command).toBe('Ctrl+P');expect(filterCommands('ulw','all')).toHaveLength(0);expect(filterCommands('/ulw','opencode')).toHaveLength(0);expect(filterCommands('missing command','all')).toHaveLength(0)});
+ it('combines scope and text',()=>{expect(filterCommands('','omo-legacy')).toHaveLength(1);expect(commands.at(-1)?.command).toBe('Ctrl+P');expect(filterCommands('ulw','all')).toHaveLength(0);expect(filterCommands('/ulw','opencode')).toHaveLength(0);expect(filterCommands('missing command','all')).toHaveLength(0)});
 });

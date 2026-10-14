@@ -21,6 +21,8 @@ const commands:Command[] = [...chapters[1].body.matchAll(/^\| `(.+?)` \| (.+?) \
 commands.push(
   {command:'/start-work',description:'계획 실행 시작 · 기존 OmO 참고',shortcut:'사내 설치판 확인 필요',scope:'omo-legacy',sourceIds:['S14']},
 );
+const paletteIndex = commands.findIndex(c => c.command === 'Ctrl+P');
+if (paletteIndex >= 0) commands.push(...commands.splice(paletteIndex, 1));
 return {sources,chapters,appendix,commands};
 }
 export function searchCommands(commands:Command[],query:string,scope:string){ const q=query.trim().toLocaleLowerCase().replace(/\s+/g,' ');return commands.filter(c=>(scope==='all'||c.scope===scope)&&`${c.command} ${c.description} ${c.shortcut}`.toLocaleLowerCase().includes(q)); }
