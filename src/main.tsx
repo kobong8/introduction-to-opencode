@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 import './typography.css';
+import './theme.css';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(<main style={{padding:'48px 24px'}} role="status">가이드를 불러오는 중입니다…</main>);

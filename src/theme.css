@@ -1,0 +1,70 @@
+:root {
+  color-scheme: light;
+  --paper: #edf1f8;
+  --surface: #fff;
+  --ink: #17233e;
+  --muted: #52627c;
+  --line: #d9e0ef;
+  --soft: #e5eafa;
+  --accent: #5265de;
+  --accent-hover: #3f50bd;
+  --accent-ink: #394ab0;
+  --violet: #8461d5;
+  --teal: #3085ae;
+  --glow: #e6e8ff;
+  --wash: #edf1f8f5;
+  --navy: #111a30;
+  --navy-raised: #26365a;
+  --navy-line: #354462;
+  --on-navy: #eef2ff;
+  --on-navy-muted: #aab7d2;
+  --on-navy-accent: #b5c2ff;
+  --scrim: #111a3077;
+  --shadow-ink: #17233e0a;
+  --shadow-deep: #111a3052;
+}
+
+body {
+  background: radial-gradient(ellipse at 90% 0%, var(--glow), transparent 44%), var(--paper);
+}
+
+.sidebar {
+  background: linear-gradient(165deg, #17233e, var(--navy) 65%, #1a2040);
+  border-color: var(--navy-line);
+  color: var(--on-navy);
+}
+
+.sidebar :is(.brand-sub, .sidebar-caption, .sidebar-caption span, .nav-title, .nav-title span, .nav-group, .progress-label, .reset, nav a > span) {
+  color: var(--on-navy-muted);
+}
+
+.sidebar .brand-icon {
+  border: 1px solid var(--navy-line);
+  background: var(--navy-raised);
+  color: var(--on-navy-accent);
+}
+
+.sidebar nav a:hover { background: var(--navy-raised); }
+.sidebar nav a[aria-current] { background: var(--accent-hover); color: var(--surface); }
+.sidebar nav a[aria-current]::before { display: none; }
+.sidebar nav a[aria-current] > span { color: var(--on-navy); }
+.sidebar :focus-visible { outline-color: var(--on-navy-accent); }
+.sidebar-bottom { border-color: var(--navy-line); }
+.sidebar .progress { background: var(--navy-line); }
+.sidebar .progress i { background: #8292ff; }
+
+.topbar { background: var(--wash); }
+.topbar .mode-switch { background: var(--soft); border-color: var(--line); }
+.topbar .mode-switch button { border-radius: 6px; }
+.topbar .mode-switch button.active { background: var(--accent-hover); color: var(--surface); }
+.hero h1 em { color: var(--accent-ink); }
+.hero .primary { background: var(--accent-hover); }
+.hero .primary:hover { background: var(--accent-ink); }
+.hero :is(.primary, .secondary) { border-radius: 7px; }
+.chapter { border-radius: 10px; border-top: 3px solid var(--accent); box-shadow: 0 5px 18px var(--shadow-ink); }
+.chapter:nth-of-type(3n + 1) { border-top-color: var(--teal); }
+.chapter:nth-of-type(3n + 2) { border-top-color: var(--violet); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+}

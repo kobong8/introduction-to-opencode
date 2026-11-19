@@ -103,7 +103,7 @@
 @media screen and (max-width: 1000px) {
   .sidebar { transform: translateX(-100%); width: 300px; z-index: 50; transition: transform .2s; }
   .sidebar.is-open { transform: translateX(0); }
-  .scrim { display: block; position: fixed; inset: 0; z-index: 40; background: #15291f77; }
+  .scrim { display: block; position: fixed; inset: 0; z-index: 40; background: var(--scrim); }
   .page { margin-left: 0; }
   .menu-toggle { display: block; font-size: 24px; padding: 6px; margin-right: 8px; }
   .hero { grid-template-columns: 1fr 1fr; }
