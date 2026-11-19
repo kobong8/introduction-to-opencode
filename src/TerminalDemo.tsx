@@ -22,7 +22,7 @@ const paletteGroups = [...new Set(paletteCommands.map(command => command.group))
 export function TerminalDemo() {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([{ request: example, message: initialMessage }]);
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [query, setQuery] = useState('');

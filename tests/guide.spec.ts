@@ -13,6 +13,9 @@ test('desktop reading, search, version filters, summaries, copy and history',asy
  await expect(page.locator('.command-tool tbody')).toContainText('/update');
  await page.getByLabel('명령어 버전 필터').selectOption('internal');await expect(page.locator('.command-tool tbody')).toContainText('/update');
  const terminal = page.locator('.tui-window');
+ await expect(terminal.locator('.tui-layout')).toBeHidden();
+ await terminal.getByRole('button',{name:'TUI 펼치기'}).click();
+ await expect(terminal.locator('.tui-layout')).toBeVisible();
  await expect(terminal).toContainText('~/projects/demo-guide');
  await terminal.getByLabel('입력',{exact:true}).press('Control+p');
  await terminal.getByRole('combobox',{name:'명령 팔레트'}).fill('모델');
