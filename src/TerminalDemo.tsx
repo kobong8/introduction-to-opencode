@@ -23,11 +23,11 @@ export function TerminalDemo() {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([{ request: example, message: initialMessage }]);
   const [expanded, setExpanded] = useState(true);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [query, setQuery] = useState('');
   const inputField = useRef<HTMLInputElement>(null);
   const searchField = useRef<HTMLInputElement>(null);
-  const paletteDialog = useRef<HTMLDialogElement>(null);
   const output = useRef<HTMLDivElement>(null);
   const filtered = paletteCommands.filter(command =>
     `${command.command} ${command.label} ${command.detail}`.toLowerCase().includes(query.trim().toLowerCase()));
@@ -36,16 +36,19 @@ export function TerminalDemo() {
     if (expanded && output.current) output.current.scrollTop = output.current.scrollHeight;
   }, [history.length, expanded]);
 
+  useLayoutEffect(() => {
+    if (paletteOpen) searchField.current?.focus();
+  }, [paletteOpen]);
+
   function openPalette() {
     setQuery('');
     setActive(0);
-    if (!paletteDialog.current?.open) paletteDialog.current?.showModal();
-    searchField.current?.focus();
+    setPaletteOpen(true);
   }
 
   function closePalette() {
-    paletteDialog.current?.close();
-    inputField.current?.focus({ preventScroll: true });
+    setPaletteOpen(false);
+    requestAnimationFrame(() => inputField.current?.focus({ preventScroll: true }));
   }
 
   function run(value: string) {
@@ -72,8 +75,12 @@ export function TerminalDemo() {
         event.preventDefault();
         openPalette();
       }
+      if (paletteOpen && event.key === 'Escape') {
+        event.preventDefault();
+        closePalette();
+      }
     }}>
-      <div className="tui-bar">
+      <div className="tui-bar" inert={paletteOpen}>
         <span aria-hidden="true">›_</span>
         <strong>OC │ 할 일 목록 살펴보기</strong>
         <button type="button" aria-controls="tui-panel" aria-expanded={expanded}
@@ -81,7 +88,10 @@ export function TerminalDemo() {
           {expanded ? 'TUI 접기' : 'TUI 펼치기'}
         </button>
       </div>
-      <dialog className="tui-palette" ref={paletteDialog} aria-labelledby="tui-palette-title" onClose={() => inputField.current?.focus({ preventScroll: true })}>
+      {paletteOpen && <div className="tui-palette-layer" onClick={event => {
+        if (event.target === event.currentTarget) closePalette();
+      }}>
+      <dialog open className="tui-palette" aria-labelledby="tui-palette-title">
         <form onSubmit={event => {
           event.preventDefault();
           if (filtered[active]) run(filtered[active].command);
@@ -121,7 +131,8 @@ export function TerminalDemo() {
           {!filtered.length && <p className="tui-empty" role="status">일치하는 체험 명령이 없습니다.</p>}
         </form>
       </dialog>
-      <div className="tui-layout" id="tui-panel" hidden={!expanded}>
+      </div>}
+      <div className="tui-layout" id="tui-panel" hidden={!expanded} inert={paletteOpen}>
         <div className="tui-conversation">
           <div className="tui-output" role="log" aria-label="요청 및 결과 기록" tabIndex={0} ref={output}>
             {history.map(({ request, message }, index) => <div className="tui-turn" key={index}>

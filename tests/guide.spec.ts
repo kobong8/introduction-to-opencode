@@ -28,6 +28,13 @@ test('desktop reading, search, version filters, summaries, copy and history',asy
  await expect(terminal.locator('.tui-turn')).toHaveCount(3);
  await terminal.getByRole('button',{name:'Ctrl+P 명령 팔레트'}).click();
  await expect(terminal.getByRole('dialog',{name:'Commands'})).toBeVisible();
+ const terminalBox = (await terminal.boundingBox())!;
+ const paletteBox = (await terminal.getByRole('dialog',{name:'Commands'}).boundingBox())!;
+ expect(paletteBox.x).toBeGreaterThan(terminalBox.x);
+ expect(paletteBox.y).toBeGreaterThan(terminalBox.y);
+ expect(paletteBox.x + paletteBox.width).toBeLessThan(terminalBox.x + terminalBox.width);
+ expect(paletteBox.y + paletteBox.height).toBeLessThan(terminalBox.y + terminalBox.height);
+ await page.getByRole('button',{name:'▤ 읽기 모드',exact:true}).click({trial:true});
  await expect(terminal.getByRole('option',{selected:true})).toHaveText(/Switch session/);
  await terminal.getByRole('combobox',{name:'명령 팔레트'}).press('ArrowDown');
  await expect(terminal.getByRole('option',{selected:true})).toHaveText(/Switch model/);
