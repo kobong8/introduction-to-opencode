@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build && node scripts/publish-static.mjs",
+    "build": "tsc --noEmit && vite build && node scripts/publish-static.mjs && node scripts/publish-labs.mjs",
     "preview": "node scripts/preview-static.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --root . src",
@@ -23,6 +23,7 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.5.0",
+    "fflate": "0.8.2",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
     "vitest": "^4.1.11"

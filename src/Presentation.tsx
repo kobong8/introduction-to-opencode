@@ -18,7 +18,11 @@ const slides: Slide[] = [
 ];
 
 export function Presentation({index, navigate}:{index:number;navigate:(id:string,present?:boolean)=>void}) {
- const chapter=chapters[index]; const slide=slides[index];
+ const chapter=chapters[index]; const slide: Slide = slides[index] ?? {
+  cards: chapter.summary.map((line, i) => [String(i + 1), ['준비', '실행', '확인'][i], line]),
+  detail: '읽기 모드에서 파일을 내려받고 각 단계의 명령과 결과를 따라가세요.',
+  takeaway: '직접 실행하고 예상한 결과가 나오는지 확인하세요.',
+ };
  return <section className="presentation" aria-label="발표 슬라이드">
   <div className="slide-top"><span className="eyebrow">OPENCODE · TEAM PLAYBOOK</span><Badge>{chapter.evidence}</Badge></div>
   <div className="deck-heading"><span className="deck-number">{String(index+1).padStart(2,'0')}</span><div><h1>{chapter.label}</h1><p className="deck-subtitle">{chapter.summary[0]}</p></div></div>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>나의 할 일 목록</title>
+  <style>
+    body { margin: 0; font: 1rem/1.6 system-ui, sans-serif; color: #17233e; background: #edf1f8; }
+    main { max-width: 580px; margin: 6vh auto; padding: clamp(18px, 5vw, 36px); background: white; border-top: 4px solid #5265de; border-radius: 12px; }
+    form, li { display: flex; gap: 12px; align-items: baseline; }
+    input, button { font: inherit; padding: 8px; }
+    input[type=text] { flex: 1; min-width: 0; border: 1px solid #7988ab; border-radius: 6px; }
+    button { border: 0; border-radius: 6px; background: #394ab0; color: white; cursor: pointer; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 8px 0; border-bottom: 1px solid #d9e0ef; overflow-wrap: anywhere; }
+    li label { width: 100%; }
+    li input { margin-right: 8px; }
+    :focus-visible { outline: 3px solid #5265de; outline-offset: 3px; }
+    [role=status] { color: #52627c; }
+    @media(max-width:650px) { main { margin: 16px; } }
+  </style>
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main>
+    <h1>나의 할 일 목록</h1>
+    <form id="add-task">
+      <label for="title">할 일</label>
+      <input id="title" type="text" required maxlength="100" placeholder="예: 책 읽기">
+      <button>추가</button>
+    </form>
+    <ul id="tasks" aria-label="할 일 목록"></ul>
+    <p id="status" role="status"></p>
+  </main>
+</body>
+</html>

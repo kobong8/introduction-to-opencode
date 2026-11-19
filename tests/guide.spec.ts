@@ -3,7 +3,7 @@ test('desktop reading, search, version filters, summaries, copy and history',asy
  await page.setViewportSize({width:1440,height:1000});
  const external:string[]=[];const errors:string[]=[];
  page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1:4173'))external.push(r.url())});page.on('pageerror',e=>errors.push(e.message));
- await page.goto('/');await expect(page.locator('section.chapter[id]')).toHaveCount(13);
+ await page.goto('/');await expect(page.locator('section.chapter[id]')).toHaveCount(17);
  await page.screenshot({path:'qa/static/desktop-1440.png',fullPage:false});
  await page.getByRole('navigation').getByText('OpenCode 첫 사용').click();await expect(page).toHaveURL(/#basics/);
  await page.getByLabel('명령어 검색').fill('  /MODELS  ');await expect(page.locator('.command-tool tbody tr')).toHaveCount(1);
@@ -66,7 +66,7 @@ test('mobile menu, layout, full manuscript without print',async({page})=>{
 test('copy fallback and slide boundaries',async({page})=>{
  await page.goto('/#prompts');await page.locator('#prompts summary').click();await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>Promise.reject(new Error('denied'))},configurable:true}));await page.locator('#prompts .code-bar button').first().click();await expect(page.locator('#prompts [role=status]').first()).toContainText('원문을 선택해');
  await page.goto('/?mode=present&chapter=why#why');await expect(page.getByRole('button',{name:'← 이전'})).toBeDisabled();await page.keyboard.press('ArrowLeft');await expect(page.locator('.presentation h1')).toHaveText('사내 OpenCode를 쓰는 이유');
- await page.goto('/?mode=present&chapter=conclusion#conclusion');await expect(page.getByRole('button',{name:'다음 →'})).toBeDisabled();await page.keyboard.press('ArrowRight');await expect(page.locator('.presentation h1')).toHaveText('팀의 다음 행동');
+ await page.goto('/?mode=present&chapter=service-your-idea#service-your-idea');await expect(page.getByRole('button',{name:'다음 →'})).toBeDisabled();await page.keyboard.press('ArrowRight');await expect(page.locator('.presentation h1')).toHaveText('내 아이디어로 바꿔보기');
 });
 test('keyboard access, blocked storage and mobile presentation without print',async({page})=>{
  await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new Error('blocked')}})});
@@ -83,7 +83,7 @@ test('static Pages subpath loads all assets without an API and preserves present
  page.on('response', r => { if (r.status() >= 400) failures.push(r.url()); });
  page.on('request', r => { if (new URL(r.url()).pathname.includes('/api/')) api.push(r.url()); });
  await page.goto('/introduction-to-opencode/');
- await expect(page.locator('section.chapter[id]')).toHaveCount(13);
+ await expect(page.locator('section.chapter[id]')).toHaveCount(17);
  await expect(page.locator('#harness')).toContainText('Caveman');
  await expect(page.locator('#prompts')).toContainText('사내 AI');
  await expect(page.locator('body')).toContainText('SonarQube');
@@ -102,7 +102,7 @@ test('presentation cards, chapter navigation and return to reading', async ({pag
  await expect(page.locator('.sidebar')).toBeHidden();
  for (const width of [1440, 390]) {
   await page.setViewportSize({width,height:1000});
-  for (let i=0;i<11;i++) {
+  for (let i=0;i<15;i++) {
    await page.locator('.deck-pages button').nth(i).click();
    await expect(page.locator('.deck-card')).toHaveCount(3);
    await expect(page.getByRole('progressbar',{name:'발표 진행'})).toHaveAttribute('aria-valuenow',String(i+1));
@@ -111,7 +111,7 @@ test('presentation cards, chapter navigation and return to reading', async ({pag
  }
  await expect(page.locator('.presentation a[href^="https://"]')).toHaveCount(0);
  await page.keyboard.press('Escape');
- await expect(page.locator('#conclusion')).toBeVisible();
+ await expect(page.locator('#service-your-idea')).toBeVisible();
  await expect(page.locator('body')).not.toHaveClass(/is-presenting/);
  await expect(page).not.toHaveURL(/mode=present/);
 });

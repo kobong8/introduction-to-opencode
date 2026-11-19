@@ -68,3 +68,29 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .cursor { animation: none; }
 }
+
+.tutorial-parts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 28px 0 42px;
+}
+.tutorial-parts a {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.tutorial-parts a:hover { background: var(--soft); }
+.tutorial-parts a:nth-child(2) { border-top-color: var(--violet); }
+.tutorial-parts a:nth-child(3) { border-top-color: var(--teal); }
+.tutorial-parts a span { color: var(--accent-ink); font: .8rem monospace; }
+.tutorial-parts a strong { font-size: 1.08rem; }
+.tutorial-parts a small { color: var(--muted); font-size: .9rem; line-height: 1.45; }
+.lab-downloads { display: flex; gap: 10px; flex-wrap: wrap; margin-block: 18px; }
+.lab-downloads a { font-size: 1rem; }
+@media (max-width: 750px) { .tutorial-parts { grid-template-columns: 1fr; } }
