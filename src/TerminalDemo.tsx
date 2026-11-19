@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { commands } from './content';
 import './terminal-demo.css';
 
-const example = '이 프로젝트의 실행 방법을 알려줘. 파일은 변경하지 마.';
+const example = '이 할 일 목록 앱의 실행 방법을 알려줘. 파일은 변경하지 마.';
 const initialMessage = '요청을 입력하거나 명령 팔레트를 열어 보세요.';
 const demoResults: Record<string, string> = {
   '/update': '업데이트 연습입니다. 실제 업데이트는 사내 설치판에서 지원할 때 사내 안내에 따라 진행하세요.',
