@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+const parts = JSON.parse(await readFile(path.join(root, 'parts.json'), 'utf8'));
+const pages = new Set(['/index.html', '/favicon.svg', ...parts.map(part => '/' + part.page)]);
 const portIndex = process.argv.indexOf('--port');
 const port = portIndex < 0 ? 4173 : Number(process.argv[portIndex + 1]);
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml' };
@@ -12,7 +14,7 @@ createServer(async (req, res) => {
     let pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
     pathname = pathname.replace(/^\/introduction-to-opencode(?=\/)/, '');
     if (pathname === '/') pathname = '/index.html';
-    if (!/^\/(?:index\.html|favicon\.svg|assets\/[\w.-]+)$/.test(pathname)) {
+    if (!pages.has(pathname) && !/^\/assets\/[\w.-]+$/.test(pathname)) {
       res.writeHead(404).end('Not found'); return;
     }
     const body = await readFile(path.join(root, pathname.slice(1)));

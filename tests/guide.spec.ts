@@ -3,7 +3,10 @@ test('desktop reading, search, version filters, summaries, copy and history',asy
  await page.setViewportSize({width:1440,height:1000});
  const external:string[]=[];const errors:string[]=[];
  page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1:4173'))external.push(r.url())});page.on('pageerror',e=>errors.push(e.message));
- await page.goto('/');await expect(page.locator('section.chapter[id]')).toHaveCount(17);
+ await page.goto('/');await expect(page.locator('.tutorial-parts a')).toHaveCount(3);
+ await expect(page.locator('section.chapter')).toHaveCount(0);
+ await page.locator('.tutorial-parts a').first().click();await expect(page).toHaveURL(/opencode\.html/);
+ await expect(page.locator('section.chapter[id]')).toHaveCount(2);
  await page.screenshot({path:'qa/static/desktop-1440.png',fullPage:false});
  await page.getByRole('navigation').getByText('OpenCode 첫 사용').click();await expect(page).toHaveURL(/#basics/);
  await page.getByLabel('명령어 검색').fill('  /MODELS  ');await expect(page.locator('.command-tool tbody tr')).toHaveCount(1);
@@ -44,6 +47,7 @@ test('desktop reading, search, version filters, summaries, copy and history',asy
  await page.keyboard.press('Escape');
  await expect(terminal.getByRole('dialog',{name:'Commands'})).toBeHidden();
  await expect(terminal.getByLabel('입력',{exact:true})).toBeFocused();
+ await page.goto('/agent-basics.html');
  await page.getByRole('navigation').getByText('프롬프트 설계').click();await page.locator('#prompts summary').click();
  await context.grantPermissions(['clipboard-read','clipboard-write']);await page.locator('#prompts .code-bar button').first().click();await expect(page.locator('#prompts [role=status]').first()).toHaveText('복사 완료');expect(await page.evaluate(()=>navigator.clipboard.readText())).toContain('목표');
  await page.locator('#prompts .read-button').click();await page.reload();await expect(page.locator('#prompts .read-button')).toHaveText('✓ 읽었어요');
@@ -53,25 +57,26 @@ test('desktop reading, search, version filters, summaries, copy and history',asy
  expect(external).toEqual([]);expect(errors).toEqual([]);
 });
 test('mobile menu, layout, full manuscript without print',async({page})=>{
- await page.setViewportSize({width:390,height:844});await page.goto('/');await expect(page.locator('.hero')).toBeVisible();
+ await page.setViewportSize({width:390,height:844});await page.goto('/agent-basics.html');await expect(page.locator('.part-intro')).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'qa/static/mobile-390.png',fullPage:false});
  await page.getByLabel('목차 열기').click();await page.getByRole('navigation').getByText('검증과 증거').click();await expect(page).toHaveURL(/#verification/);await expect(page.locator('.sidebar')).not.toHaveClass(/is-open/);
  await page.locator('#verification summary').click();await expect(page.locator('#verification pre').first()).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- await page.getByRole('button',{name:'전체 원고 펼치기 +'}).click();await expect(page.locator('details[open]')).toHaveCount(11);
+ await page.getByRole('button',{name:'전체 원고 펼치기 +'}).click();await expect(page.locator('details[open]')).toHaveCount(9);
  await expect(page.getByRole('button',{name:/인쇄/})).toHaveCount(0);
+ await page.goto('/service-basics.html#references');
  await expect(page.locator('#references a')).toHaveCount(20);
  await expect(page.locator('#references')).toContainText('사내 네트워크에서는 아래 외부 링크에 접속하지 못할 수 있습니다.');
  await expect(page.locator('section.chapter:not(#references) a[href^="https://"]')).toHaveCount(0);
 });
 test('copy fallback and slide boundaries',async({page})=>{
- await page.goto('/#prompts');await page.locator('#prompts summary').click();await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>Promise.reject(new Error('denied'))},configurable:true}));await page.locator('#prompts .code-bar button').first().click();await expect(page.locator('#prompts [role=status]').first()).toContainText('원문을 선택해');
+ await page.goto('/#prompts');await expect(page).toHaveURL(/agent-basics\.html#prompts/);await page.locator('#prompts summary').click();await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>Promise.reject(new Error('denied'))},configurable:true}));await page.locator('#prompts .code-bar button').first().click();await expect(page.locator('#prompts [role=status]').first()).toContainText('원문을 선택해');
  await page.goto('/?mode=present&chapter=why#why');await expect(page.getByRole('button',{name:'← 이전'})).toBeDisabled();await page.keyboard.press('ArrowLeft');await expect(page.locator('.presentation h1')).toHaveText('사내 OpenCode를 쓰는 이유');
  await page.goto('/?mode=present&chapter=service-your-idea#service-your-idea');await expect(page.getByRole('button',{name:'다음 →'})).toBeDisabled();await page.keyboard.press('ArrowRight');await expect(page.locator('.presentation h1')).toHaveText('내 아이디어로 바꿔보기');
 });
 test('keyboard access, blocked storage and mobile presentation without print',async({page})=>{
  await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new Error('blocked')}})});
- await page.setViewportSize({width:390,height:844});await page.goto('/');await expect(page.locator('.hero')).toBeVisible();await page.keyboard.press('Tab');await expect(page.getByText('본문으로 건너뛰기')).toBeFocused();
- await page.getByRole('button',{name:'▷ 발표로 살펴보기'}).click();await page.getByRole('button',{name:'다음 →'}).click();await expect(page.locator('.presentation h1')).toHaveText('OpenCode 첫 사용');
+ await page.setViewportSize({width:390,height:844});await page.goto('/opencode.html');await expect(page.locator('.part-intro')).toBeVisible();await page.keyboard.press('Tab');await expect(page.getByText('본문으로 건너뛰기')).toBeFocused();
+ await page.getByRole('button',{name:'▷ 발표 모드'}).click();await page.getByRole('button',{name:'다음 →'}).click();await expect(page.locator('.presentation h1')).toHaveText('OpenCode 첫 사용');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'qa/static/mobile-presentation-390.png'});
  await expect(page.getByRole('button',{name:/인쇄/})).toHaveCount(0);
 });
@@ -83,7 +88,10 @@ test('static Pages subpath loads all assets without an API and preserves present
  page.on('response', r => { if (r.status() >= 400) failures.push(r.url()); });
  page.on('request', r => { if (new URL(r.url()).pathname.includes('/api/')) api.push(r.url()); });
  await page.goto('/introduction-to-opencode/');
- await expect(page.locator('section.chapter[id]')).toHaveCount(17);
+ await expect(page.locator('.tutorial-parts a')).toHaveCount(3);
+ await page.locator('.tutorial-parts a').nth(1).click();
+ await expect(page).toHaveURL(/introduction-to-opencode\/agent-basics\.html/);
+ await expect(page.locator('section.chapter[id]')).toHaveCount(10);
  await expect(page.locator('#harness')).toContainText('Caveman');
  await expect(page.locator('#prompts')).toContainText('사내 AI');
  await expect(page.locator('body')).toContainText('SonarQube');
@@ -98,11 +106,11 @@ test('static Pages subpath loads all assets without an API and preserves present
 
 
 test('presentation cards, chapter navigation and return to reading', async ({page}) => {
- await page.goto('/?mode=present&chapter=why#why');
+ await page.goto('/?mode=present&chapter=service-start#service-start');
  await expect(page.locator('.sidebar')).toBeHidden();
  for (const width of [1440, 390]) {
   await page.setViewportSize({width,height:1000});
-  for (let i=0;i<15;i++) {
+  for (let i=0;i<4;i++) {
    await page.locator('.deck-pages button').nth(i).click();
    await expect(page.locator('.deck-card')).toHaveCount(3);
    await expect(page.getByRole('progressbar',{name:'발표 진행'})).toHaveAttribute('aria-valuenow',String(i+1));

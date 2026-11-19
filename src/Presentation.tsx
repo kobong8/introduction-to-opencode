@@ -1,4 +1,4 @@
-import { chapters } from './content';
+import type { chapters as allChapters } from './content';
 import { Badge } from './components';
 import './presentation.css';
 
@@ -17,8 +17,8 @@ const slides: Slide[] = [
  {cards:[['시작','작은 과제 하나','목표와 완료 조건을 적고 관련 팀 규칙과 스킬을 확인합니다.'],['실행','맡기고 검증하기','준비한 계획을 실행하고 실제 테스트 결과로 완료를 판단합니다.'],['축적','다음 작업에 남기기','오류와 해결 방법, 남은 작업을 기록하고 다음 세션에서 참고합니다.']],detail:'중복 설명과 불필요한 로그는 줄이되, 결과를 확인하는 데 필요한 분석과 테스트는 충분히 진행하세요.',takeaway:'일을 설계하고, 맡기고, 검증하세요. 팀의 경험은 다음 작업의 출발점입니다.'},
 ];
 
-export function Presentation({index, navigate}:{index:number;navigate:(id:string,present?:boolean)=>void}) {
- const chapter=chapters[index]; const slide: Slide = slides[index] ?? {
+export function Presentation({chapters,index, navigate}:{chapters:typeof allChapters;index:number;navigate:(id:string,present?:boolean)=>void}) {
+ const chapter=chapters[index]; const slide: Slide = slides[chapter.number - 1] ?? {
   cards: chapter.summary.map((line, i) => [String(i + 1), ['준비', '실행', '확인'][i], line]),
   detail: '읽기 모드에서 파일을 내려받고 각 단계의 명령과 결과를 따라가세요.',
   takeaway: '직접 실행하고 예상한 결과가 나오는지 확인하세요.',

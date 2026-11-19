@@ -102,3 +102,7 @@ GitHub Pages의 배포 완료 후 사이트를 새로고침합니다. **원고�
 ## 서비스 실습 예제
 
 `service-labs/python`과 `service-labs/node`는 같은 할 일 목록을 서로 다른 서버로 실행하는 실습입니다. 각 ZIP에는 브라우저 화면, 실행 스크립트, 테스트가 포함됩니다. `npm run build`에서 `scripts/publish-labs.mjs`를 실행해 두 ZIP을 `assets/`에 생성합니다. 공통 브라우저 코드는 `service-labs/shared`에서 편집합니다.
+
+## 파트별 페이지
+
+홈은 세 학습 카드를 표시합니다. `parts.json`이 각 파트의 페이지와 장을 연결하고, Vite 빌드는 홈과 세 파트의 HTML을 생성해 GitHub Pages 루트에 복사합니다. 예전에 공유한 장 링크도 파트별 주소로 연결됩니다.

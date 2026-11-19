@@ -1,0 +1,20 @@
+[
+  {
+    "page": "opencode.html",
+    "title": "OpenCode 사용법",
+    "text": "설치 준비, 모의 터미널, 명령 팔레트와 첫 요청",
+    "ids": ["why", "basics"]
+  },
+  {
+    "page": "agent-basics.html",
+    "title": "에이전트 기초",
+    "text": "스킬과 하네스부터 작업 지시, 계획, 결과 검증까지",
+    "ids": ["harness", "omo", "prompts", "sessions", "team", "workflow", "verification", "files", "conclusion", "appendix"]
+  },
+  {
+    "page": "service-basics.html",
+    "title": "서비스 만들기",
+    "text": "할 일 앱을 켜고 첫 기능을 바꾼 뒤 내 아이디어로 확장",
+    "ids": ["service-start", "service-anatomy", "service-first-change", "service-your-idea", "references"]
+  }
+]

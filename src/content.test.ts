@@ -1,3 +1,4 @@
+import { parts, tutorialRoute } from './tutorial-route';
 import { describe,it,expect } from 'vitest';
 import manuscript from '../CONTENTS.md?raw';
 import references from '../SOURCES.md?raw';
@@ -12,4 +13,21 @@ describe('provided manuscript',()=>{
 describe('command search',()=>{
  it('finds command, description and shortcut with normalized input',()=>{expect(filterCommands('  /MODELS  ','all')[0].command).toBe('/models');expect(filterCommands('이전 세션','opencode')[0].command).toBe('/sessions');expect(filterCommands('팔레트','opencode').map(c=>c.command)).toContain('Ctrl+P')});
  it('combines scope and text',()=>{expect(commands.map(c=>c.command)).toEqual(['opencode','Ctrl+P','/update','/models','/sessions']);expect(filterCommands('/update','internal')[0]?.command).toBe('/update');expect(filterCommands('/update','opencode')).toHaveLength(0);expect(filterCommands('ulw','all')).toHaveLength(0);expect(filterCommands('/ulw','opencode')).toHaveLength(0);expect(filterCommands('missing command','all')).toHaveLength(0)});
+});
+
+
+describe('tutorial pages', () => {
+ it('assigns every chapter to exactly one part', () => {
+  const ids = parts.flatMap(part => part.ids).filter(id => id !== 'appendix' && id !== 'references');
+  expect(ids).toEqual(chapters.map(chapter => chapter.id));
+ });
+ it('redirects shared chapter and presentation links within the Pages base path', () => {
+  const base = 'https://kobong8.github.io/introduction-to-opencode/';
+  expect(tutorialRoute(new URL(base)).part).toBeUndefined();
+  expect(tutorialRoute(new URL(base + '#basics')).redirect?.href).toBe(base + 'opencode.html#basics');
+  expect(tutorialRoute(new URL(base + '?mode=present&chapter=prompts#prompts')).redirect?.href)
+   .toBe(base + 'agent-basics.html?mode=present&chapter=prompts#prompts');
+  expect(tutorialRoute(new URL(base + 'service-basics.html')).id).toBe('service-start');
+  expect(tutorialRoute(new URL(base + 'service-basics.html#service-start')).redirect).toBeUndefined();
+ });
 });

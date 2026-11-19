@@ -94,3 +94,18 @@ body {
 .lab-downloads { display: flex; gap: 10px; flex-wrap: wrap; margin-block: 18px; }
 .lab-downloads a { font-size: 1rem; }
 @media (max-width: 750px) { .tutorial-parts { grid-template-columns: 1fr; } }
+
+.tutorial-home { max-width: 1140px; padding-top: clamp(40px, 8vw, 102px); padding-bottom: 56px; }
+.tutorial-home-heading { max-width: 680px; }
+.tutorial-home-heading h1 { font-size: clamp(2.1rem, 5vw, 4rem); line-height: 1.22; margin: 12px 0; letter-spacing: -.05em; }
+.tutorial-home-heading > p:last-child, .part-intro p { color: var(--muted); line-height: 1.65; }
+.tutorial-home .tutorial-parts a { padding: 22px; min-height: 128px; }
+.tutorial-home .tutorial-parts a strong { font-size: 1.3rem; }
+.part-intro { margin: 34px 0; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.part-intro h1 { margin: 0; letter-spacing: -.045em; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+.part-intro p { margin: 8px 0 0; }
+.part-home-link { white-space: nowrap; color: var(--accent-ink); font-size: .875rem; }
+@media (max-width: 700px) {
+  .top-actions .part-home-link { margin-right: 6px; }
+  .top-actions .mode-switch { min-width: 0; }
+}
