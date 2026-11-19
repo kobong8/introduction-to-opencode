@@ -1,5 +1,5 @@
-export type Scope = 'opencode'|'omo-legacy';
-export type Command = {command:string;description:string;shortcut:string;scope:Scope;sourceIds:string[]};
+export type Scope = 'opencode'|'internal'|'omo-legacy';
+export type Command = {command:string;description:string;shortcut:string;scope:Scope};
 
 export const labels = ['사내 OpenCode를 쓰는 이유','OpenCode 첫 사용','스킬·하네스·메모리','Oh My OpenCode','프롬프트 설계','계획·실행·세션 관리','나만의 에이전트 팀','다음 일을 설계하는 법','검증과 증거','보안 엑셀 파일','팀의 다음 행동'];
 export const evidence = ['사내 활용 경험','공식 기능','교육 예제','버전 확인 필요','교육 예제','버전 확인 필요','교육 예제','교육 예제','교육 예제','사내 확인 필요','교육 예제'];
@@ -12,17 +12,13 @@ const chapters = parts.map((part, i) => {
   const summaryBlock = text.match(/### 발표 요약\s+([\s\S]*?)(?=\n### )/)![1];
   const summary = summaryBlock.trim().split('\n').map(s=>s.replace(/^- /,'')).filter(Boolean);
   const body = text.replace(/### 발표 요약\s+[\s\S]*?(?=\n### )/,'').trim();
-  const refs = [...new Set([...body.matchAll(/S\d{2}/g)].map(m=>m[0]))];
-  const fallback: Record<string,string[]> = {prompts:['S03','S08'],workflow:['S09'],files:['S01'],conclusion:['S07','S08']};
-  return { id:heading[3],number:i+1,title:heading[2],label:labels[i],summary,body,evidence:evidence[i],sourceIds:refs.length?refs:(fallback[heading[3]]||['S04']) };
+  return { id:heading[3],number:i+1,title:heading[2],label:labels[i],summary,body,evidence:evidence[i] };
 });
 const appendix = '## 부록 A' + manuscript.split('## 부록 A')[1];
-const commands:Command[] = [...chapters[1].body.matchAll(/^\| `(.+?)` \| (.+?) \| (.+?) \|$/gm)].map(m=>({command:m[1],description:m[2],shortcut:m[3],scope:'opencode',sourceIds:['S03','S05']}));
+const commands:Command[] = [...chapters[1].body.matchAll(/^\| `(.+?)` \| (.+?) \| (.+?) \|$/gm)].map(m=>({command:m[1],description:m[2],shortcut:m[3],scope:m[1]==='/update'?'internal':'opencode'}));
 commands.push(
-  {command:'/start-work',description:'계획 실행 시작 · 기존 OmO 참고',shortcut:'사내 설치판 확인 필요',scope:'omo-legacy',sourceIds:['S14']},
+  {command:'/start-work',description:'계획 실행 시작 · 기존 OmO 참고',shortcut:'사내 설치판 확인 필요',scope:'omo-legacy'},
 );
-const paletteIndex = commands.findIndex(c => c.command === 'Ctrl+P');
-if (paletteIndex >= 0) commands.push(...commands.splice(paletteIndex, 1));
 return {sources,chapters,appendix,commands};
 }
 export function searchCommands(commands:Command[],query:string,scope:string){ const q=query.trim().toLocaleLowerCase().replace(/\s+/g,' ');return commands.filter(c=>(scope==='all'||c.scope===scope)&&`${c.command} ${c.description} ${c.shortcut}`.toLocaleLowerCase().includes(q)); }

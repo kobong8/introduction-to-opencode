@@ -23,6 +23,7 @@
 | S17 | Superpowers 원본 저장소 | https://github.com/obra/superpowers | 테스트·디버깅·검증 절차 추천 후보 · 2026-10-13 확인 |
 | S18 | SonarQube Server 분석 과정 | https://docs.sonarsource.com/sonarqube-server/discovering/analysis-overview/process-steps | 정적 분석과 사내 서버 운용 · 2026-10-13 확인 |
 | S19 | Playwright API testing | https://playwright.dev/docs/api-testing | API 요청·응답 검증 · 2026-10-13 확인 |
+| S20 | OpenCode CLI 업그레이드 | https://opencode.ai/docs/cli/commands/#upgrade | 공개 CLI 업데이트 참고 · 2026-11-19 확인 |
 
 S14는 원본 최신 문서가 아닌 fork의 보존 자료다. 현재 기능의 권위 있는 출처로 사용하지 않는다. 기존 이름과 경로는 사내 설치판을 직접 확인해야 한다.
 

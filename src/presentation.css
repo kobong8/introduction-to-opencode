@@ -23,8 +23,6 @@
 .deck-takeaway { background:linear-gradient(110deg,var(--navy),var(--navy-raised)); color:#fff; padding:18px 24px; margin-top:18px; border-radius:12px; }
 .deck-takeaway>span { color:var(--on-navy-muted); font-size:14px; }
 .deck-takeaway p { font-size:21px; font-weight:600; margin:6px 0 0; line-height:1.6; }
-.deck-sources { margin-top:14px; color:var(--muted); font-size:14px; }
-.deck-sources summary { cursor:pointer; }
 .presentation .slide-controls { margin-top:16px; padding:14px 0 10px; gap:16px; }
 .presentation .slide-controls button { font-size:16px; padding:10px 16px; white-space:nowrap; }
 .deck-pages { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }

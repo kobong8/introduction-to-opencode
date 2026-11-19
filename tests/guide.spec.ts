@@ -8,7 +8,9 @@ test('desktop reading, search, version filters, summaries, copy and history',asy
  await page.getByRole('navigation').getByText('OpenCode 첫 사용').click();await expect(page).toHaveURL(/#basics/);
  await page.getByLabel('명령어 검색').fill('  /MODELS  ');await expect(page.locator('.command-tool tbody tr')).toHaveCount(1);
  await page.getByLabel('명령어 버전 필터').selectOption('omo-legacy');await expect(page.getByText('일치하는 명령어가 없습니다.')).toBeVisible();
- await page.getByRole('button',{name:'필터 초기화'}).click();await expect(page.locator('.command-tool tbody tr')).toHaveCount(15);
+ await page.getByRole('button',{name:'필터 초기화'}).click();await expect(page.locator('.command-tool tbody tr')).toHaveCount(16);
+ await expect(page.locator('.command-tool tbody tr').first()).toContainText('Ctrl+P');
+ await expect(page.locator('.command-tool tbody')).toContainText('/update');
  await page.getByLabel('명령어 버전 필터').selectOption('omo-legacy');await expect(page.locator('.command-tool tbody')).toContainText('/start-work');
  await page.getByRole('navigation').getByText('프롬프트 설계').click();await page.locator('#prompts summary').click();
  await context.grantPermissions(['clipboard-read','clipboard-write']);await page.locator('#prompts .code-bar button').first().click();await expect(page.locator('#prompts [role=status]').first()).toHaveText('복사 완료');expect(await page.evaluate(()=>navigator.clipboard.readText())).toContain('목표');
@@ -25,7 +27,9 @@ test('mobile menu, layout, full manuscript without print',async({page})=>{
  await page.locator('#verification summary').click();await expect(page.locator('#verification pre').first()).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.getByRole('button',{name:'전체 원고 펼치기 +'}).click();await expect(page.locator('details[open]')).toHaveCount(11);
  await expect(page.getByRole('button',{name:/인쇄/})).toHaveCount(0);
- await expect(page.locator('#references a')).toHaveCount(19);
+ await expect(page.locator('#references a')).toHaveCount(20);
+ await expect(page.locator('#references')).toContainText('사내 네트워크에서는 아래 외부 링크에 접속하지 못할 수 있습니다.');
+ await expect(page.locator('section.chapter:not(#references) a[href^="https://"]')).toHaveCount(0);
 });
 test('copy fallback and slide boundaries',async({page})=>{
  await page.goto('/#prompts');await page.locator('#prompts summary').click();await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>Promise.reject(new Error('denied'))},configurable:true}));await page.locator('#prompts .code-bar button').first().click();await expect(page.locator('#prompts [role=status]').first()).toContainText('원문을 선택해');
@@ -73,8 +77,7 @@ test('presentation cards, chapter navigation and return to reading', async ({pag
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
  }
- await page.locator('.deck-sources summary').click();
- await expect(page.locator('.deck-sources .source-links a').first()).toBeVisible();
+ await expect(page.locator('.presentation a[href^="https://"]')).toHaveCount(0);
  await page.keyboard.press('Escape');
  await expect(page.locator('#conclusion')).toBeVisible();
  await expect(page.locator('body')).not.toHaveClass(/is-presenting/);
