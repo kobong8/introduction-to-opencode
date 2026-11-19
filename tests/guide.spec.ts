@@ -48,6 +48,8 @@ test('desktop reading, search, version filters, summaries, copy and history',asy
  await expect(terminal.getByRole('dialog',{name:'Commands'})).toBeHidden();
  await expect(terminal.getByLabel('입력',{exact:true})).toBeFocused();
  await page.goto('/agent-basics.html');
+ await expect(page.locator('.chapter-number')).toHaveText(['01','02','03','04','05','06','07','08','09']);
+ await expect(page.getByRole('navigation',{name:'장별 목차'}).locator('a > span')).toHaveText(['01','02','03','04','05','06','07','08','09']);
  await page.getByRole('navigation').getByText('프롬프트 설계').click();await page.locator('#prompts summary').click();
  await context.grantPermissions(['clipboard-read','clipboard-write']);await page.locator('#prompts .code-bar button').first().click();await expect(page.locator('#prompts [role=status]').first()).toHaveText('복사 완료');expect(await page.evaluate(()=>navigator.clipboard.readText())).toContain('목표');
  await page.locator('#prompts .read-button').click();await page.reload();await expect(page.locator('#prompts .read-button')).toHaveText('✓ 읽었어요');
@@ -64,6 +66,7 @@ test('mobile menu, layout, full manuscript without print',async({page})=>{
  await page.getByRole('button',{name:'전체 원고 펼치기 +'}).click();await expect(page.locator('details[open]')).toHaveCount(9);
  await expect(page.getByRole('button',{name:/인쇄/})).toHaveCount(0);
  await page.goto('/service-basics.html#references');
+ await expect(page.locator('.chapter-number')).toHaveText(['01','02','03','04']);
  await expect(page.locator('#references a')).toHaveCount(20);
  await expect(page.locator('#references')).toContainText('사내 네트워크에서는 아래 외부 링크에 접속하지 못할 수 있습니다.');
  await expect(page.locator('section.chapter:not(#references) a[href^="https://"]')).toHaveCount(0);
